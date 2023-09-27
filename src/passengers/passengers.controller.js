@@ -11,8 +11,12 @@ export const findAllPassengers = (req, res) => {
 };
 
 export const createPassenger = async (req, res) => {
-  const passenger = await passengerService.createPassenger(req.body);
-  res.status(201).json(passenger);
+  try {
+    const passenger = await passengerService.createPassenger(req.body);
+    return res.status(201).json(passenger);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 export const findOnePassenger = (req, res) => {

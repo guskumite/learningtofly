@@ -11,7 +11,7 @@ export const router = Router();
 
 //Rutas
 //endpoint 1: obtener todos los pasajeros
-router.get("/passengers", findAllPassengers);
+/* router.get("/passengers", findAllPassengers);
 
 //endpoint 2: crear un pasajero
 router.post("/passengers", createPassenger);
@@ -23,5 +23,14 @@ router.get("/passengers/:id", findOnePassenger);
 router.patch("/passengers/:id", updatePassenger);
 
 //edpoint 5: eliminar la información de un pasajero
-router.delete("/passengers/:id", deletePassenger);
+router.delete("/passengers/:id", deletePassenger); */
+
+router.route("/").get(findAllPassengers).post(createPassenger);
+
+router
+  .route("/:id")
+  .get(findOnePassenger)
+  .patch(updatePassenger)
+  .delete(deletePassenger);
+
 //end features

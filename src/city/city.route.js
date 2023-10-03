@@ -1,3 +1,24 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { 
+  findAllCities,
+  createCity ,
+  findOneCity,
+  updateCity,
+  deleteCity,
+} from './city.controller.js'
 
-export const router = Router();
+import { validateExistCity } from './city.middleware.js'
+
+export const router = Router()
+
+
+router.route("/")
+  .get(findAllCities)
+  .post(createCity)
+
+router
+  .use('/:id', validateExistCity)
+  .route("/:id")
+  .get(findOneCity)
+  .patch(updateCity)
+  .delete(deleteCity)

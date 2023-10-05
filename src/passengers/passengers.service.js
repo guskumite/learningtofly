@@ -1,20 +1,25 @@
 import Passenger from "./passengers.model.js";
 
 export class PassengerService {
-  async createPassenger(data) {
-    return await Passenger.create(data);
-  }
-
-  async findAllPassengers() {
-    return await Passenger.findAll();
-  }
-
   async findOnePassenger(id) {
     return await Passenger.findOne({
       where: {
         id,
+        status: true,
       },
     });
+  }
+
+  async findAllPassengers() {
+    return await Passenger.findAll({
+      where: {
+        status: true,
+      },
+    });
+  }
+
+  async createPassenger(data) {
+    return await Passenger.create(data);
   }
 
   async updatePassenger(passenger, data) {

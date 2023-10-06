@@ -12,7 +12,7 @@ export async function authenticate() {
     await sequelize.authenticate();
     console.log("Connection has been established successfully. 😎");
   } catch (error) {
-    throw new Error("Error al autenticar: ", error);
+    throw new Error("Error when authenticating: ", error);
   }
 }
 
@@ -21,7 +21,7 @@ export async function syncUp() {
     await sequelize.sync();
     console.log("Connection has been synced successfully 😎");
   } catch (error) {
-    throw new Error("Error al sincronizar: ", error);
+    throw new Error("Error when authenticating: ", error);
   }
 }
 

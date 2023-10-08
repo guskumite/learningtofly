@@ -12,7 +12,7 @@ import { protect } from "../auth/auth.middleware.js";
 
 export const router = Router();
 
-// router.use(protect)
+router.use(protect);
 
 router.route("/").get(findAllCities).post(createCity);
 

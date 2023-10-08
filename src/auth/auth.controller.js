@@ -36,6 +36,7 @@ export const login = catchAsync(async (req, res, next) => {
   }
   //3 generar el token
   const token = await generateJWT(user.id);
+  console.log(token);
   //4. enviar la respuesta al cliente
   return res.status(200).json({
     token,

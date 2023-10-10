@@ -17,8 +17,6 @@ export const protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
 
-  console.log(req.headers.authorization);
-
   //2. validad si el token existe
   if (!token) {
     return next(

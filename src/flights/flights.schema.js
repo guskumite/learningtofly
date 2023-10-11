@@ -5,8 +5,14 @@ export const flightSchema = z.object({
   origin: z.number(),
   plane: z.number(),
   destination: z.number(),
-  departure: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
-  checkin: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
+  departure: z.string({
+    invalid_type_error: "Departure date must be a correct format!",
+    required_error: "Departure date is required",
+  }),
+  checkin: z.string({
+    invalid_type_error: "Check in date must be a correct format!",
+    required_error: "Check in date is required",
+  }),
 });
 
 export function validateFlight(data) {

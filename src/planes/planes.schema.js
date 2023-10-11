@@ -4,7 +4,7 @@ import { extractValidationData } from "../common/utils/extractErrorData.js";
 export const planeSchema = z.object({
   airplane: z.number(),
   model: z.string().min(3).max(20),
-  capacity: z.number(),
+  capacity: z.number().positive().min(20).max(400),
   airline: z.string().min(3).max(40),
 });
 

@@ -28,12 +28,12 @@ const Flight = sequelize.define("flight", {
     field: "plane_id",
   },
   departure: {
-    type: DataTypes.TIME,
+    type: DataTypes.DATE,
     allowNull: false,
     field: "departure_time",
   },
   checkin: {
-    type: DataTypes.TIME,
+    type: DataTypes.DATE,
     allowNull: false,
     field: "check_in",
   },

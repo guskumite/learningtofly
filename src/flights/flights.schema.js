@@ -1,21 +1,16 @@
 import z from "zod";
 import { extractValidationData } from "../common/utils/extractErrorData.js";
 
-export const flightSchema = z.object({
-  origin: z.number(),
-  plane: z.number(),
-  destination: z.number(),
-  departure: z.string({
-    invalid_type_error: "Departure date must be a correct format!",
-    required_error: "Departure date is required",
-  }),
-  checkin: z.string({
-    invalid_type_error: "Check in date must be a correct format!",
-    required_error: "Check in date is required",
-  }),
+const flightSchema = z.object({
+  originId: z.number().positive(),
+  destinationId: z.number().positive(),
+  planeId: z.number().positive(),
+  departureDate: z.string(),
+  checkIn: z.date().optional(),
+  status: z.enum(["pending", "inProgress", "done", "cancelled"]).optional(),
 });
 
-export function validateFlight(data) {
+export const validateFlight = (data) => {
   const result = flightSchema.safeParse(data);
 
   const {
@@ -29,9 +24,9 @@ export function validateFlight(data) {
     errorMessages,
     flightData,
   };
-}
+};
 
-export function validatePartialFlight(data) {
+export const validatePartialFlight = (data) => {
   const result = flightSchema.partial().safeParse(data);
 
   const {
@@ -45,4 +40,4 @@ export function validatePartialFlight(data) {
     errorMessages,
     flightData,
   };
-}
+};

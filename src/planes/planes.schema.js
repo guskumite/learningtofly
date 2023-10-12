@@ -2,13 +2,19 @@ import z from "zod";
 import { extractValidationData } from "../common/utils/extractErrorData.js";
 
 export const planeSchema = z.object({
-  airplane: z.number(),
-  model: z.string().min(3).max(20),
-  capacity: z.number().positive().min(20).max(400),
-  airline: z.string().min(3).max(40),
+  planeNumber: z.number().positive(),
+  model: z.string().min(3).max(89),
+  capacity: z.number().positive(),
+  airline: z.enum([
+    "AeroGlobe",
+    "AeroTronix",
+    "VelocityAir",
+    "AirQuest",
+    "StarLinx",
+  ]),
 });
 
-export function validatePlane(data) {
+export const validatePlane = (data) => {
   const result = planeSchema.safeParse(data);
 
   const {
@@ -22,9 +28,9 @@ export function validatePlane(data) {
     errorMessages,
     planeData,
   };
-}
+};
 
-export function validatePartialPlane(data) {
+export const validatePartialPlane = (data) => {
   const result = planeSchema.partial().safeParse(data);
 
   const {
@@ -38,4 +44,4 @@ export function validatePartialPlane(data) {
     errorMessages,
     planeData,
   };
-}
+};

@@ -1,24 +1,22 @@
-import { Router } from "express";
-
+import express from "express";
 import {
-  findAllPlanes,
   createPlane,
+  deletePlane,
+  findAllPlanes,
   findOnePlane,
   updatePlane,
-  deletePlane,
 } from "./planes.controller.js";
-import { validateExistPlane } from "./planes.middleware.js";
-import { protect } from "../auth/auth.middleware.js";
+import { restrictTo } from "../auth/auth.middleware.js";
 
-export const router = Router();
-
-router.use(protect);
-
-router.route("/").get(findAllPlanes).post(createPlane);
+export const router = express.Router();
 
 router
-  .use("/:id", validateExistPlane)
+  .route("/")
+  .get(restrictTo("receptionist", "developer", "admin"), findAllPlanes)
+  .post(restrictTo("developer", "admin"), createPlane);
+
+router
   .route("/:id")
-  .get(findOnePlane)
-  .patch(updatePlane)
-  .delete(deletePlane);
+  .get(restrictTo("receptionist", "developer", "admin"), findOnePlane)
+  .patch(restrictTo("developer", "admin"), updatePlane)
+  .delete(restrictTo("developer", "admin"), deletePlane);

@@ -1,47 +1,42 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database/database.js";
 
-const Flight = sequelize.define("flight", {
+const Flight = sequelize.define("flights", {
   id: {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
     type: DataTypes.INTEGER,
-    field: "flight_id",
   },
-  origin: {
+  originId: {
     type: DataTypes.INTEGER,
-    unique: false,
     allowNull: false,
     field: "origin_id",
   },
-  destination: {
+  destinationId: {
     type: DataTypes.INTEGER,
-    unique: false,
     allowNull: false,
     field: "destination_id",
   },
-  plane: {
+  planeId: {
     type: DataTypes.INTEGER,
-    unique: false,
     allowNull: false,
     field: "plane_id",
   },
-  departure: {
+  departureDate: {
     type: DataTypes.DATE,
     allowNull: false,
-    field: "departure_time",
+    field: "departure_date",
   },
-  checkin: {
+  checkIn: {
     type: DataTypes.DATE,
-    allowNull: false,
+    allowNull: true,
     field: "check_in",
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM("pending", "inProgress", "done", "cancelled"),
     allowNull: false,
     defaultValue: "pending",
-    field: "flight_status",
   },
 });
 

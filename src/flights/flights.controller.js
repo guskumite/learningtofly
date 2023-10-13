@@ -1,12 +1,15 @@
+import { promise } from "zod";
 import { CityService } from "../city/city.service.js";
 import { envs } from "../config/enviroments/enviroments.js";
 import { httpClient } from "../config/plugins/http-client.plugin.js";
 import { AppError, catchAsync } from "../errors/index.js";
 import { validateFlight, validatePartialFlight } from "./flights.schema.js";
 import { FlightService } from "./flights.service.js";
+import { TicketService } from "../tickets/ticket.service.js";
 
 const flightService = new FlightService();
 const cityService = new CityService();
+const ticketService = new TicketService();
 
 export const findAllFlights = catchAsync(async (req, res, next) => {
   const flights = await flightService.findAll();
@@ -78,6 +81,17 @@ export const deleteFlights = catchAsync(async (req, res, next) => {
     return next(new AppError(`can't find flight with id: ${id}`));
   }
 
+  const ticket = await ticketService.findOneTicketByFlightId(id);
+
+  if (ticket) {
+    return next(
+      new AppError(
+        `a flight cannot be deleted if tickets have been for it`,
+        400
+      )
+    );
+  }
+
   await flightService.delete(flight);
 
   return res.status(204).json(null);
@@ -92,16 +106,21 @@ export const approveFlight = catchAsync(async (req, res, next) => {
     return next(new AppError(`flight with id: ${id} not found!`, 404));
   }
 
-  const originCity = await cityService.findOneCity(flight.originId);
+  const originCityPromise = cityService.findOneCity(flight.originId);
+
+  const destinationCityPromise = cityService.findOneCity(flight.destinationId);
+
+  const [originCity, destinationCity] = await Promise.all([
+    originCityPromise,
+    destinationCityPromise,
+  ]);
 
   if (!originCity) {
     return next(new AppError("city of origin does not exist"));
   }
 
-  const destinationCity = await cityService.findOneCity(flight.destinationId);
-
   if (!destinationCity) {
-    return next(new AppError("city of destiny doesn't exists"));
+    return next(new AppError("city of destination doesn't exist"));
   }
 
   const weatherConditions = await httpClient.get(
@@ -111,7 +130,7 @@ export const approveFlight = catchAsync(async (req, res, next) => {
   if (weatherConditions.weather[0].main === "Rain") {
     return next(
       new AppError(
-        "weather conditions do not meet the requeriments for tokeoff",
+        "weather conditions do not meet the requeriments for takeoff",
         400
       )
     );

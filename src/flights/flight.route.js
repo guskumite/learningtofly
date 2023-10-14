@@ -6,8 +6,8 @@ import {
   findOneFlights,
   updateFlights,
   deleteFlights,
-} from "./flights.controller.js";
-import { validateExistFlight } from "./flights.middleware.js";
+} from "./flight.controller.js";
+import { validateExistFlight } from "./flight.middleware.js";
 import { protect } from "../auth/auth.middleware.js";
 
 export const router = Router();

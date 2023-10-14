@@ -1,6 +1,6 @@
 import { catchAsync, AppError } from "../errors/index.js";
-import { validatePlane, validatePartialPlane } from "./planes.schema.js";
-import { PlaneService } from "./planes.service.js";
+import { validatePlane, validatePartialPlane } from "./plane.schema.js";
+import { PlaneService } from "./plane.service.js";
 
 const planeService = new PlaneService();
 

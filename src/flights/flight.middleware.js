@@ -1,5 +1,5 @@
 import { AppError, catchAsync } from "../errors/index.js";
-import { FlightService } from "./flights.service.js";
+import { FlightService } from "./flight.service.js";
 
 const flightService = new FlightService();
 

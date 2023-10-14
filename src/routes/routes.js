@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { router as passengerRouter } from "../passengers/passengers.route.js";
-import { router as planesRouter } from "../planes/planes.route.js";
-import { router as flightsRouter } from "../flights/flights.route.js";
+import { router as planesRouter } from "../plane/plane.route.js";
+import { router as flightsRouter } from "../flights/flight.route.js";
 import { router as cityRouter } from "../city/city.route.js";
 import { router as authRouter } from "../auth/auth.route.js";
 import { router as ticketRouter } from "./../tickets/ticket.route.js";

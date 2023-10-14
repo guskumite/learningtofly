@@ -3,8 +3,8 @@ import { CityService } from "../city/city.service.js";
 import { envs } from "../config/enviroments/enviroments.js";
 import { httpClient } from "../config/plugins/http-client.plugin.js";
 import { AppError, catchAsync } from "../errors/index.js";
-import { validateFlight, validatePartialFlight } from "./flights.schema.js";
-import { FlightService } from "./flights.service.js";
+import { validateFlight, validatePartialFlight } from "./flight.schema.js";
+import { FlightService } from "./flight.service.js";
 import { TicketService } from "../tickets/ticket.service.js";
 
 const flightService = new FlightService();
@@ -12,7 +12,7 @@ const cityService = new CityService();
 const ticketService = new TicketService();
 
 export const findAllFlights = catchAsync(async (req, res, next) => {
-  const flights = await flightService.findAll();
+  const flights = await flightService.findAllWithAllData();
 
   return res.status(200).json(flights);
 });
@@ -73,8 +73,6 @@ export const updateFlights = catchAsync(async (req, res, next) => {
 export const deleteFlights = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  //TODO: no se deberia poder eliminar un vuelo pendiente, si ese vuelo tiene ticketes vendidos
-
   const flight = await flightService.findOne(id, "pending");
 
   if (!flight) {
@@ -101,7 +99,6 @@ export const approveFlight = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   const flight = await flightService.findOne(id, "pending");
-
   if (!flight) {
     return next(new AppError(`flight with id: ${id} not found!`, 404));
   }
@@ -120,17 +117,16 @@ export const approveFlight = catchAsync(async (req, res, next) => {
   }
 
   if (!destinationCity) {
-    return next(new AppError("city of destination doesn't exist"));
+    return next(new AppError("city of destiny doesn't exists"));
   }
 
   const weatherConditions = await httpClient.get(
     `https://api.openweathermap.org/data/2.5/weather?lat=${originCity.lat}&lon=${originCity.long}&appid=${envs.API_KEY_WEATHERMAP}`
   );
-
   if (weatherConditions.weather[0].main === "Rain") {
     return next(
       new AppError(
-        "weather conditions do not meet the requeriments for takeoff",
+        "weather conditions do not meet the requeriments for tokeoff",
         400
       )
     );

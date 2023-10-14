@@ -5,7 +5,7 @@ import {
   findAllPlanes,
   findOnePlane,
   updatePlane,
-} from "./planes.controller.js";
+} from "./plane.controller.js";
 import { restrictTo } from "../auth/auth.middleware.js";
 
 export const router = express.Router();

@@ -1,4 +1,4 @@
-import Plane from "./planes.model.js";
+import Plane from "./plane.model.js";
 
 export class PlaneService {
   async findOne(id) {

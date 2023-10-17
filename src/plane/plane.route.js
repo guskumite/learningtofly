@@ -1,4 +1,5 @@
 import express from "express";
+import { protect } from "../auth/auth.middleware.js";
 import {
   createPlane,
   deletePlane,
@@ -12,11 +13,11 @@ export const router = express.Router();
 
 router
   .route("/")
-  .get(restrictTo("receptionist", "developer", "admin"), findAllPlanes)
-  .post(restrictTo("developer", "admin"), createPlane);
+  .get(protect, restrictTo("receptionist", "developer", "admin"), findAllPlanes)
+  .post(protect, restrictTo("developer", "admin"), createPlane);
 
 router
   .route("/:id")
-  .get(restrictTo("receptionist", "developer", "admin"), findOnePlane)
-  .patch(restrictTo("developer", "admin"), updatePlane)
-  .delete(restrictTo("developer", "admin"), deletePlane);
+  .get(protect, restrictTo("receptionist", "developer", "admin"), findOnePlane)
+  .patch(protect, restrictTo("developer", "admin"), updatePlane)
+  .delete(protect, restrictTo("developer", "admin"), deletePlane);

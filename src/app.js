@@ -11,7 +11,7 @@ import { sanitizerClean } from "./config/plugins/sanitizer.plugin.js";
 import { setParameterPoluttion } from "./config/plugins/parameter-pollution.plugin.js";
 
 const app = express();
-const ACCEPTED_ORIGINS = ["http://localhost:3000"];
+const ACCEPTED_ORIGINS = ["http://localhost:3000", "http://localhost:5173"];
 
 const helmet = setSecurityHeaders();
 const sanitizer = sanitizerClean();

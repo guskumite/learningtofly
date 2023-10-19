@@ -8,6 +8,6 @@ router.post("/login", login);
 
 router.post("/register", protect, restrictTo("developer"), register);
 // for initial superuser creation
-//router.post("/register", register);
+// router.post("/register", register);
 
 router.patch("/change-password", protect, changePassword);
